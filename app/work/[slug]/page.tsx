@@ -74,11 +74,11 @@ export default async function ProjectPage({
       <Reveal>
         <section className="mt-20 border-t border-white/10 pt-10 sm:mt-24 sm:pt-12">
           <h2 className="font-mono text-xs uppercase tracking-widest text-white/40">Credits</h2>
-          <dl className="mt-10 max-w-2xl space-y-4">
+          <dl className="mt-6 max-w-2xl space-y-2">
             {project.credits.map((credit) => (
               <div
                 key={`${credit.role}-${credit.name}`}
-                className="grid grid-cols-2 gap-8 border-b border-white/5 pb-4 font-serif text-sm sm:text-base"
+                className="grid grid-cols-2 gap-6 border-b border-white/5 py-2 font-serif text-sm sm:text-base"
               >
                 <dt className="text-white/50 tracking-[-0.01em]">{credit.role}</dt>
                 <dd className="font-light tracking-[-0.015em]">{credit.name}</dd>

@@ -19,7 +19,8 @@
       "Bash(git push *)",
       "Bash(pkill -f \"next dev\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)",
-      "Bash(git commit -m 'Dark theme with premium spacing & interactivity *)"
+      "Bash(git commit -m 'Dark theme with premium spacing & interactivity *)",
+      "Bash(git commit -m 'Tighten credits section spacing *)"
     ]
   }
 }
