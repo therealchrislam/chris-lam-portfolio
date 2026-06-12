@@ -6,6 +6,8 @@ export type Credit = {
 export type Project = {
   slug: string;
   title: string;
+  /** Condensed label for the sidebar — must fit on one line. */
+  navTitle: string;
   client: string;
   category: string;
   year: string;
@@ -40,6 +42,7 @@ export const projects: Project[] = [
   {
     slug: "foot-locker-its-black-and-white",
     title: "It's Black and White / Colors",
+    navTitle: "Foot Locker: B&W / Colors",
     client: "Foot Locker",
     category: "Branded Content",
     year: "2025",
@@ -61,6 +64,7 @@ export const projects: Project[] = [
   {
     slug: "fox-sports-world-cup-uzbekistan",
     title: "World Cup '26 — Uzbekistan",
+    navTitle: "Fox Sports: Uzbekistan",
     client: "Fox Sports",
     category: "Commercial",
     year: "2026",
@@ -73,6 +77,7 @@ export const projects: Project[] = [
   {
     slug: "fox-sports-world-cup-mirror",
     title: "World Cup '26 — Mirror",
+    navTitle: "Fox Sports: Mirror",
     client: "Fox Sports",
     category: "Commercial",
     year: "2026",
@@ -85,6 +90,7 @@ export const projects: Project[] = [
   {
     slug: "fox-sports-world-cup-miracle",
     title: "World Cup '26 — Miracle",
+    navTitle: "Fox Sports: Miracle",
     client: "Fox Sports",
     category: "Commercial",
     year: "2026",
@@ -97,6 +103,7 @@ export const projects: Project[] = [
   {
     slug: "fox-sports-world-cup-dollar-bill",
     title: "World Cup '26 — Dollar Bill",
+    navTitle: "Fox Sports: Dollar Bill",
     client: "Fox Sports",
     category: "Commercial",
     year: "2026",
@@ -109,6 +116,7 @@ export const projects: Project[] = [
   {
     slug: "fox-sports-world-cup-pool",
     title: "World Cup '26 — Pool",
+    navTitle: "Fox Sports: Pool",
     client: "Fox Sports",
     category: "Commercial",
     year: "2026",
@@ -121,6 +129,7 @@ export const projects: Project[] = [
   {
     slug: "postmates-ooh",
     title: "OOH Campaign",
+    navTitle: "Postmates: OOH",
     client: "Postmates",
     category: "OOH Campaign",
     year: "2024",

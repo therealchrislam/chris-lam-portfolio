@@ -1,28 +1,30 @@
 import Link from "next/link";
-import Reveal from "@/components/Reveal";
-import WorkItem from "@/components/WorkItem";
 import { projects } from "@/data/projects";
 
 export default function HomePage() {
   return (
-    <>
-      {/* Works grid - straight into first featured project */}
-      <section id="work" className="scroll-mt-24">
-        <div className="grid grid-cols-1 gap-x-10 gap-y-20 sm:grid-cols-2 sm:gap-y-32">
-          {projects.map((project, i) => {
-            const featured = i % 3 === 0;
-            return (
-              <Reveal
-                key={project.slug}
-                delay={featured ? 0 : (i % 3) * 120}
-                className={featured ? "sm:col-span-2" : ""}
-              >
-                <WorkItem project={project} featured={featured} />
-              </Reveal>
-            );
-          })}
-        </div>
-      </section>
-    </>
+    <section className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2">
+      {projects.map((project) => (
+        <Link
+          key={project.slug}
+          href={`/work/${project.slug}/`}
+          className="group block"
+        >
+          <div className="aspect-video w-full overflow-hidden bg-white/5">
+            <img
+              src={project.coverImage}
+              alt={`${project.client} — ${project.title}`}
+              className="h-full w-full object-cover transition-opacity duration-200 group-hover:opacity-70"
+            />
+          </div>
+          <p className="mt-3 text-xs uppercase tracking-widest text-white/40">
+            {project.client}
+          </p>
+          <h2 className="mt-1 text-xs uppercase tracking-widest text-white">
+            {project.title}
+          </h2>
+        </Link>
+      ))}
+    </section>
   );
 }
