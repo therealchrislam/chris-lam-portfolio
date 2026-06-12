@@ -8,8 +8,8 @@ const nav = [
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-black py-10">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <footer className="mt-32 border-t border-white/10 py-16">
+      <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
         <nav className="flex gap-6">
           {nav.map((item) => (
             <Link
@@ -21,7 +21,7 @@ export default function Footer() {
             </Link>
           ))}
         </nav>
-        <div className="font-mono text-xs lowercase">
+        <div className="font-mono text-xs lowercase text-white/50">
           chris lam productions llc — santa monica, ca
         </div>
       </div>

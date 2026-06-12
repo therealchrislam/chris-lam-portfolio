@@ -11,7 +11,15 @@
       "Bash(npx tsc *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -m 'Portfolio v1: carina-style editorial design *)"
+      "Bash(git commit -m 'Portfolio v1: carina-style editorial design *)",
+      "Bash(git checkout *)",
+      "Bash(git reset *)",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(git commit -m 'Dark theme with premium spacing & interactivity *)"
     ]
   }
 }

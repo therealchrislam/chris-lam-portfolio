@@ -69,10 +69,10 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${archivo.variable} ${caslon.variable} ${instrument.variable} ${mono.variable} bg-white font-sans text-black`}
+        className={`${archivo.variable} ${caslon.variable} ${instrument.variable} ${mono.variable} bg-black font-sans text-white`}
       >
         <BrandMarks />
-        <div className="mx-auto flex min-h-screen max-w-[1440px] flex-col px-4 pt-28 sm:px-8 sm:pt-36">
+        <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 pt-32 sm:px-10 sm:pt-40">
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
