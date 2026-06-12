@@ -90,12 +90,37 @@ export default async function ProjectPage({
 
       <div className="mt-20 border-t border-white/10 pt-10">
         <Link
-          href="/#work"
+          href="/"
           className="font-mono text-xs uppercase tracking-wider text-white/50 transition-colors duration-300 hover:text-white"
         >
-          ← Back to all work
+          ← All projects
         </Link>
       </div>
+
+      {/* All projects archive */}
+      <Reveal>
+        <section className="mt-28 border-t border-white/10 pt-16">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-white/40">
+            All projects · {projects.length}
+          </h2>
+          <div className="mt-8 space-y-3">
+            {projects.map((proj) => (
+              <Link
+                key={proj.slug}
+                href={`/work/${proj.slug}/`}
+                className={`block font-serif text-sm transition-opacity duration-300 hover:opacity-60 ${
+                  proj.slug === slug ? "text-white" : "text-white/50"
+                }`}
+              >
+                <span className="font-light tracking-[-0.01em]">
+                  {proj.client} – {proj.title}
+                </span>
+                <span className="ml-4 text-white/30">{proj.year}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </Reveal>
     </article>
   );
 }
