@@ -16,7 +16,7 @@ export default function Sidebar({ projects }: { projects: NavProject[] }) {
   const pathname = normalize(usePathname() ?? "/");
 
   const linkClass = (active: boolean) =>
-    `block text-xs uppercase tracking-widest leading-relaxed transition-colors duration-200 ${
+    `block text-xs uppercase tracking-widest leading-snug transition-colors duration-200 ${
       active ? "text-white" : "text-white/40 hover:text-white"
     }`;
 
@@ -25,16 +25,16 @@ export default function Sidebar({ projects }: { projects: NavProject[] }) {
       <div>
         <Link
           href="/"
-          className="block text-xs uppercase tracking-widest text-white"
+          className="block text-sm font-semibold uppercase tracking-widest text-white"
         >
           Chris Lam
         </Link>
-        <p className="mt-1 text-xs uppercase tracking-widest text-white/40">
+        <p className="mt-1.5 text-xs uppercase tracking-widest text-white/50">
           Freelance Producer
         </p>
       </div>
 
-      <nav className="mt-12 hidden space-y-3 lg:block">
+      <nav className="mt-12 hidden space-y-2 lg:block">
         {projects.map((project) => {
           const href = `/work/${project.slug}/`;
           return (
@@ -62,9 +62,6 @@ export default function Sidebar({ projects }: { projects: NavProject[] }) {
         >
           Contact
         </a>
-        <p className="hidden pt-6 text-[10px] uppercase tracking-widest text-white/30 lg:block">
-          Santa Monica, CA
-        </p>
       </nav>
     </aside>
   );

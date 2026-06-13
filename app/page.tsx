@@ -10,7 +10,7 @@ export default async function HomePage() {
       {projects.map((project, i) => (
         <Reveal key={project.slug} delay={(i % 2) * 90}>
           <Link href={`/work/${project.slug}/`} className="group block">
-            <div className="aspect-video w-full overflow-hidden bg-white/5">
+            <div className="aspect-video w-full overflow-hidden rounded-lg bg-white/5">
               <img
                 src={project.coverImage}
                 alt={`${project.client} — ${project.title}`}
