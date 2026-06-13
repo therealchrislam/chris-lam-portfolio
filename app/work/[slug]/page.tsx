@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Reveal from "@/components/Reveal";
 import VideoEmbed from "@/components/VideoEmbed";
 import { getProject, getProjects } from "@/data/projects";
 
@@ -42,26 +43,28 @@ export default async function ProjectPage({
 
   return (
     <article>
-      {project.videoUrl ? (
-        <VideoEmbed
-          url={project.videoUrl}
-          title={`${project.client} — ${project.title}`}
-        />
-      ) : (
-        <div className="relative aspect-video w-full bg-white/5">
-          <Image
-            src={project.coverImage}
-            alt={`${project.client} — ${project.title}`}
-            fill
-            sizes="100vw"
-            className="object-cover"
-            unoptimized
-            priority
+      <div className="animate-fade-in">
+        {project.videoUrl ? (
+          <VideoEmbed
+            url={project.videoUrl}
+            title={`${project.client} — ${project.title}`}
           />
-        </div>
-      )}
+        ) : (
+          <div className="relative aspect-video w-full bg-white/5">
+            <Image
+              src={project.coverImage}
+              alt={`${project.client} — ${project.title}`}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              unoptimized
+              priority
+            />
+          </div>
+        )}
+      </div>
 
-      <header className="mt-10">
+      <header className="mt-10 animate-fade-up">
         <h1 className="text-xs uppercase tracking-widest text-white">
           {project.client}: {project.title}
         </h1>
@@ -73,28 +76,32 @@ export default async function ProjectPage({
       </header>
 
       {project.description && (
-        <p className="mt-8 max-w-xl text-sm leading-relaxed text-white/80">
-          {project.description}
-        </p>
+        <Reveal>
+          <p className="mt-8 max-w-xl text-sm leading-relaxed text-white/80">
+            {project.description}
+          </p>
+        </Reveal>
       )}
 
       {project.credits.length > 0 && (
-        <section className="mt-12 border-t border-white/10 pt-8">
-          <h2 className="text-xs uppercase tracking-widest text-white/40">
-            Credits
-          </h2>
-          <dl className="mt-5 max-w-xl">
-            {project.credits.map((credit) => (
-              <div
-                key={`${credit.role}-${credit.name}`}
-                className="grid grid-cols-2 gap-6 border-b border-white/5 py-2 text-sm"
-              >
-                <dt className="text-white/40">{credit.role}</dt>
-                <dd className="text-white">{credit.name}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
+        <Reveal>
+          <section className="mt-12 border-t border-white/10 pt-8">
+            <h2 className="text-xs uppercase tracking-widest text-white/40">
+              Credits
+            </h2>
+            <dl className="mt-5 max-w-xl">
+              {project.credits.map((credit) => (
+                <div
+                  key={`${credit.role}-${credit.name}`}
+                  className="grid grid-cols-2 gap-6 border-b border-white/5 py-2 text-sm"
+                >
+                  <dt className="text-white/40">{credit.role}</dt>
+                  <dd className="text-white">{credit.name}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </Reveal>
       )}
 
       <nav className="mt-12 flex items-center justify-between border-t border-white/10 pt-8 text-xs uppercase tracking-widest">

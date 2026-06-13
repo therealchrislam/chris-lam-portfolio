@@ -21,7 +21,7 @@ export default function Sidebar({ projects }: { projects: NavProject[] }) {
     }`;
 
   return (
-    <aside className="px-6 pt-8 pb-4 lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-72 lg:flex-col lg:overflow-y-auto lg:px-10 lg:py-10">
+    <aside className="animate-fade-in px-6 pt-8 pb-4 lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:w-72 lg:flex-col lg:overflow-y-auto lg:px-10 lg:py-10">
       <div>
         <Link
           href="/"

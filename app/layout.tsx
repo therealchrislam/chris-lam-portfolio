@@ -19,7 +19,16 @@ export default async function RootLayout({
 }) {
   const projects = await getProjects();
   return (
-    <html lang="en">
+    // suppressHydrationWarning: the inline script adds the "js" class before
+    // hydration, which is an expected html-attribute mismatch.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
       <body className="bg-black font-sans text-white antialiased">
         <Sidebar
           projects={projects.map(({ slug, navTitle }) => ({ slug, navTitle }))}
