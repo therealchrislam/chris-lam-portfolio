@@ -94,7 +94,7 @@ function yearFromName(name: string): string {
 // inline SVG data URI so no files are needed.
 function placeholderCover(label: string): string {
   const text = label.toUpperCase().replace(/&/g, "&amp;");
-  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#0d0d0d'/><text x='800' y='465' fill='#3a3a3a' font-family='Helvetica,Arial,sans-serif' font-size='46' letter-spacing='10' text-anchor='middle'>${text}</text></svg>`;
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'><rect width='1600' height='900' fill='#efefef'/><text x='800' y='465' fill='#bdbdbd' font-family='Helvetica,Arial,sans-serif' font-size='46' letter-spacing='10' text-anchor='middle'>${text}</text></svg>`;
   return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 

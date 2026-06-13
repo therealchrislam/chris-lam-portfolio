@@ -7,13 +7,12 @@ const config: Config = {
     "./data/**/*.{ts,tsx}",
   ],
   theme: {
-    // Strict monochrome palette: black, white, one light gray for
-    // subtle background separation only. No other colors exist.
+    // Black + white with one bold yellow accent. No other colors.
     colors: {
       black: "#000000",
       white: "#ffffff",
       gray: "#f5f5f5",
-      yellow: "#FFD700",
+      yellow: "#FFD60A",
       transparent: "transparent",
       current: "currentColor",
     },
@@ -22,13 +21,10 @@ const config: Config = {
         sans: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
         display: [
           "var(--font-display)",
-          '"Helvetica Neue"',
+          '"Arial Narrow"',
           "Helvetica",
           "sans-serif",
         ],
-        serif: ["var(--font-serif)", "Baskerville", "Georgia", "serif"],
-        title: ["var(--font-title)", "Baskerville", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "Menlo", "monospace"],
       },
       letterSpacing: {
         tightest: "-0.04em",

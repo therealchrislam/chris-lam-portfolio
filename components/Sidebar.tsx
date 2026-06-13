@@ -11,7 +11,6 @@ type NavProject = {
 type SidebarProps = {
   projects: NavProject[];
   collapsed: boolean;
-  overlay: boolean;
   onReveal: () => void;
   onHide: () => void;
 };
@@ -23,7 +22,6 @@ function normalize(path: string) {
 export default function Sidebar({
   projects,
   collapsed,
-  overlay,
   onReveal,
   onHide,
 }: SidebarProps) {
@@ -40,7 +38,7 @@ export default function Sidebar({
       onMouseLeave={onHide}
       className={`animate-fade-in bg-white px-6 pt-8 pb-4 lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:w-72 lg:flex-col lg:overflow-y-auto lg:px-10 lg:py-10 lg:transition-transform lg:duration-500 lg:ease-[cubic-bezier(0.22,1,0.36,1)] ${
         collapsed ? "lg:-translate-x-full" : "lg:translate-x-0"
-      } ${overlay && !collapsed ? "lg:shadow-xl" : ""}`}
+      }`}
     >
       <div>
         <Link
