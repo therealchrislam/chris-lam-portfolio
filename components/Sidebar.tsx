@@ -2,13 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { projects } from "@/data/projects";
+
+type NavProject = {
+  slug: string;
+  navTitle: string;
+};
 
 function normalize(path: string) {
   return path.replace(/\/+$/, "") || "/";
 }
 
-export default function Sidebar() {
+export default function Sidebar({ projects }: { projects: NavProject[] }) {
   const pathname = normalize(usePathname() ?? "/");
 
   const linkClass = (active: boolean) =>

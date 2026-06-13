@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { projects } from "@/data/projects";
+import { getProjects } from "@/data/projects";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const projects = await getProjects();
+
   return (
     <section className="grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2">
       {projects.map((project) => (
