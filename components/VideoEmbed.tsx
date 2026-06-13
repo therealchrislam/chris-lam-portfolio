@@ -18,13 +18,13 @@ export default function VideoEmbed({
         src={url}
         controls
         playsInline
-        className="aspect-video w-full bg-black"
+        className="aspect-video w-full rounded-lg bg-black"
       />
     );
   }
 
   return (
-    <div className="relative aspect-video w-full bg-black">
+    <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black">
       <iframe
         src={url}
         title={title}

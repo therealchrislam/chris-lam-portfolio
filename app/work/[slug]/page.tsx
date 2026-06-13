@@ -50,7 +50,7 @@ export default async function ProjectPage({
             title={`${project.client} — ${project.title}`}
           />
         ) : (
-          <div className="relative aspect-video w-full bg-white/5">
+          <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black/5">
             <Image
               src={project.coverImage}
               alt={`${project.client} — ${project.title}`}
@@ -65,19 +65,18 @@ export default async function ProjectPage({
       </div>
 
       <header className="mt-10 animate-fade-up">
-        <h1 className="text-xs uppercase tracking-widest text-white">
-          {project.client}: {project.title}
+        <p className="text-xs uppercase tracking-widest text-black/40">
+          {project.client}
+          {meta ? ` · ${meta}` : ""}
+        </p>
+        <h1 className="mt-3 font-display text-5xl uppercase leading-[0.88] tracking-tight text-black sm:text-7xl">
+          {project.title}
         </h1>
-        {meta && (
-          <p className="mt-1 text-xs uppercase tracking-widest text-white/40">
-            {meta}
-          </p>
-        )}
       </header>
 
       {project.description && (
         <Reveal>
-          <p className="mt-8 max-w-xl text-sm leading-relaxed text-white/80">
+          <p className="mt-8 max-w-xl text-sm leading-relaxed text-black/70">
             {project.description}
           </p>
         </Reveal>
@@ -85,18 +84,18 @@ export default async function ProjectPage({
 
       {project.credits.length > 0 && (
         <Reveal>
-          <section className="mt-12 border-t border-white/10 pt-8">
-            <h2 className="text-xs uppercase tracking-widest text-white/40">
+          <section className="mt-12 border-t border-black/10 pt-8">
+            <h2 className="text-xs uppercase tracking-widest text-black/40">
               Credits
             </h2>
             <dl className="mt-5 max-w-xl">
               {project.credits.map((credit) => (
                 <div
                   key={`${credit.role}-${credit.name}`}
-                  className="grid grid-cols-2 gap-6 border-b border-white/5 py-2 text-sm"
+                  className="grid grid-cols-2 gap-6 border-b border-black/10 py-2.5 text-xs uppercase tracking-widest"
                 >
-                  <dt className="text-white/40">{credit.role}</dt>
-                  <dd className="text-white">{credit.name}</dd>
+                  <dt className="text-black/40">{credit.role}</dt>
+                  <dd className="text-black">{credit.name}</dd>
                 </div>
               ))}
             </dl>
@@ -104,11 +103,11 @@ export default async function ProjectPage({
         </Reveal>
       )}
 
-      <nav className="mt-12 flex items-center justify-between border-t border-white/10 pt-8 text-xs uppercase tracking-widest">
+      <nav className="mt-12 flex items-center justify-between border-t border-black/10 pt-8 text-xs uppercase tracking-widest">
         {prevProject ? (
           <Link
             href={`/work/${prevProject.slug}/`}
-            className="text-white/40 transition-colors duration-200 hover:text-white"
+            className="text-black/40 transition-colors duration-200 hover:text-black"
           >
             ← Prev
           </Link>
@@ -117,14 +116,14 @@ export default async function ProjectPage({
         )}
         <Link
           href="/"
-          className="text-white/40 transition-colors duration-200 hover:text-white"
+          className="text-black/40 transition-colors duration-200 hover:text-black"
         >
           All works
         </Link>
         {nextProject ? (
           <Link
             href={`/work/${nextProject.slug}/`}
-            className="text-white/40 transition-colors duration-200 hover:text-white"
+            className="text-black/40 transition-colors duration-200 hover:text-black"
           >
             Next →
           </Link>

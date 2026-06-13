@@ -1,7 +1,18 @@
 import type { Metadata } from "next";
+import { Anton } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
+import AppShell from "@/components/AppShell";
 import { getProjects } from "@/data/projects";
+
+// Druk-like display face for the wordmark + headline titles: bold, condensed,
+// high-impact. (Real Druk is a licensed Commercial Type font; Anton is the
+// closest free substitute.)
+const anton = Anton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -29,13 +40,14 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="bg-black font-sans text-white antialiased">
-        <Sidebar
+      <body
+        className={`${anton.variable} bg-white font-sans text-black antialiased`}
+      >
+        <AppShell
           projects={projects.map(({ slug, navTitle }) => ({ slug, navTitle }))}
-        />
-        <main className="px-6 pb-24 pt-4 lg:ml-72 lg:px-12 lg:pt-10">
+        >
           {children}
-        </main>
+        </AppShell>
       </body>
     </html>
   );
