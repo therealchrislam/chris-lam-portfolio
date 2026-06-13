@@ -158,6 +158,26 @@ function rowsToProjects(rows: string[][]): Project[] {
   return projects;
 }
 
+// Replace placeholder covers with the project's Vimeo thumbnail, fetched
+// from Vimeo's keyless oEmbed endpoint at build time. An explicit COVER from
+// the sheet always wins; on any failure the placeholder is kept.
+async function addVimeoThumbnail(project: Project): Promise<void> {
+  if (!project.videoUrl) return;
+  if (!project.coverImage.startsWith("data:")) return; // explicit cover wins
+  const m = project.videoUrl.match(/video\/(\d+)/);
+  if (!m) return;
+  try {
+    const res = await fetch(
+      `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${m[1]}&width=1280`,
+    );
+    if (!res.ok) return;
+    const data = (await res.json()) as { thumbnail_url?: string };
+    if (data.thumbnail_url) project.coverImage = data.thumbnail_url;
+  } catch {
+    // network/parse failure — keep the placeholder cover
+  }
+}
+
 // --- build-time fetch ------------------------------------------------------
 // Memoized per build so the sheet is only pulled once across all pages.
 let cache: Promise<Project[]> | null = null;
@@ -173,7 +193,9 @@ async function fetchProjects(): Promise<Project[]> {
         `Google Sheet is shared as "anyone with the link can view".`,
     );
   }
-  return rowsToProjects(parseCsv(await res.text()));
+  const projects = rowsToProjects(parseCsv(await res.text()));
+  await Promise.all(projects.map(addVimeoThumbnail));
+  return projects;
 }
 
 export function getProjects(): Promise<Project[]> {
