@@ -44,12 +44,23 @@ export default async function ProjectPage({
         <Placeholder label={project.heroPlaceholder} bordered={false} />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.92] via-black/[0.18] to-transparent" />
 
-        {project.hasVideo && (
-          <div className="pointer-events-none absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 sm:right-10 lg:right-12">
-            <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
-            <span className="text-[11px] tracking-wider">VIDEO</span>
-          </div>
-        )}
+        {project.hasVideo &&
+          (project.videoUrl ? (
+            <a
+              href={project.videoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 transition-colors duration-200 hover:border-cream/60 hover:bg-black/60 sm:right-10 lg:right-12"
+            >
+              <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
+              <span className="text-[11px] tracking-wider">WATCH</span>
+            </a>
+          ) : (
+            <div className="pointer-events-none absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 sm:right-10 lg:right-12">
+              <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
+              <span className="text-[11px] tracking-wider">VIDEO</span>
+            </div>
+          ))}
 
         <Link
           href="/"
@@ -68,6 +79,16 @@ export default async function ProjectPage({
           <p className="mt-4 max-w-xl font-mono text-sm text-cream/70 sm:text-base">
             {project.hook}
           </p>
+          {project.videoUrl && (
+            <a
+              href={project.videoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="pointer-events-auto mt-5 inline-block text-xs tracking-wide text-cream underline decoration-cream/40 underline-offset-4 transition-colors duration-200 hover:decoration-cream"
+            >
+              WATCH THE FILM ↗
+            </a>
+          )}
         </div>
       </div>
 
@@ -77,8 +98,25 @@ export default async function ProjectPage({
             <div className="text-xs tracking-[0.14em] text-cream/55">
               OVERVIEW
             </div>
-            <div className="max-w-2xl text-lg font-medium leading-relaxed sm:text-xl">
-              {project.ask} {project.role}
+            <div className="max-w-2xl">
+              <p className="text-lg font-medium leading-relaxed sm:text-xl">
+                {project.ask} {project.role}
+              </p>
+              {project.press && project.press.length > 0 && (
+                <div className="mt-5 flex flex-wrap gap-5">
+                  {project.press.map((p) => (
+                    <a
+                      key={p.url}
+                      href={p.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs tracking-wide text-cream/55 underline decoration-cream/25 underline-offset-4 transition-colors duration-200 hover:text-cream hover:decoration-cream/60"
+                    >
+                      AS SEEN IN {p.label.toUpperCase()} ↗
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </Reveal>

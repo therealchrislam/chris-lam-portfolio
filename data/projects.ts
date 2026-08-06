@@ -25,6 +25,10 @@ export type Project = {
   tilePlaceholder: string;
   /** Caption for the project-page hero placeholder. */
   heroPlaceholder: string;
+  /** Link to the real film (Vimeo, YouTube, etc.), when one exists. */
+  videoUrl?: string;
+  /** Outside coverage — trade press, articles. */
+  press?: { label: string; url: string }[];
 };
 
 // Source of truth for every project on the site. Add a new object to this
@@ -163,27 +167,35 @@ export const projects: Project[] = [
   },
   {
     slug: "nike-50th-anniversary",
-    title: "50th Anniversary",
+    title: "Seen It All",
     client: "Nike",
     category: "Branded Film",
     year: "2022",
     hasVideo: true,
-    hook: "A half-century of Nike, told through the athletes and moments that built it.",
-    tilePlaceholder: "Nike — 50th Anniversary still",
-    heroPlaceholder: "Hero still — Nike 50th Anniversary",
-    ask: "Mark fifty years of Nike with a film that could carry the weight of the brand's history without feeling like a corporate retrospective.",
-    role: "Produced the film from development through delivery, coordinating archival sourcing alongside new production.",
-    work: [
-      "Sourced and cleared archival footage across five decades",
-      "Coordinated talent and shoot logistics for new material",
-      "Managed post schedule across editorial and finishing",
-    ],
+    hook: "Spike Lee reprises Mars Blackmon for Nike's 50th — its most iconic ad character, brought back to point at what's next.",
+    tilePlaceholder: 'Nike — "Seen It All" still',
+    heroPlaceholder: 'Hero still — "Seen It All"',
+    ask: "For its 50th anniversary, Nike wanted to honor its most iconic advertising while hinting at where the brand is headed next.",
+    role: "Produced \"Seen It All,\" a minute-long film that brought Spike Lee back as Mars Blackmon — the \"She's Gotta Have It\" character who fronted Nike's marketing in the late '80s — for the first time in decades.",
+    work: [],
     credits: [
       { role: "CLIENT", name: "Nike" },
-      { role: "EDITORIAL", name: "TBD" },
+      { role: "CREATIVE DIRECTOR", name: "Ryan O'Rourke" },
+      { role: "CREATIVE DIRECTOR", name: "Alberto Ponte" },
+      { role: "COPYWRITER", name: "Kevin Steele" },
+      { role: "ART DIRECTOR", name: "Pedro Izique" },
+      { role: "EP", name: "Byron Oshiro" },
+      { role: "SENIOR PRODUCER", name: "Antonio Burnett" },
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["Archival still", "On-set still", "Finishing detail"],
+    videoUrl: "https://vimeo.com/737717529",
+    press: [
+      {
+        label: "Ad Age",
+        url: "https://adage.com/article/marketing-news-strategy/nike-resurrects-spike-lees-mars-blackmon-50th-anniversary-campaign/2417321",
+      },
+    ],
   },
   {
     slug: "nike-womens-world-cup",
