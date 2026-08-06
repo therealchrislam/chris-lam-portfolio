@@ -1,16 +1,31 @@
 import type { Metadata } from "next";
-import { Anton } from "next/font/google";
+import { Archivo, Space_Grotesk, Space_Mono } from "next/font/google";
 import "./globals.css";
-import AppShell from "@/components/AppShell";
-import { getProjects } from "@/data/projects";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import GrainOverlay from "@/components/GrainOverlay";
 
-// Druk-like display face for the wordmark + headline titles: bold, condensed,
-// high-impact. (Real Druk is a licensed Commercial Type font; Anton is the
-// closest free substitute.)
-const anton = Anton({
+// Bold, condensed display face for the wordmark + headline titles.
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-display",
+  display: "swap",
+});
+
+// Body copy.
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+// Uppercase meta labels: eyebrows, nav, credits, captions.
+const spaceMono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -20,19 +35,22 @@ export const metadata: Metadata = {
     template: "%s — Chris Lam",
   },
   description:
-    "Chris Lam is a freelance commercial and film producer based in Santa Monica, CA. Chris Lam Productions LLC.",
+    "Chris Lam is a freelance commercial and film producer based in Los Angeles. Chris Lam Productions LLC.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const projects = await getProjects();
   return (
     // suppressHydrationWarning: the inline script adds the "js" class before
     // hydration, which is an expected html-attribute mismatch.
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${archivo.variable} ${spaceGrotesk.variable} ${spaceMono.variable}`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -40,14 +58,11 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${anton.variable} bg-white font-sans text-black antialiased`}
-      >
-        <AppShell
-          projects={projects.map(({ slug, navTitle }) => ({ slug, navTitle }))}
-        >
-          {children}
-        </AppShell>
+      <body className="bg-ink font-sans text-cream antialiased selection:bg-cream selection:text-ink">
+        <GrainOverlay />
+        <Header />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

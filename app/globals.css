@@ -65,6 +65,34 @@ html.js .reveal.is-visible {
   animation: fade-up 0.8s var(--ease-out-soft) both;
 }
 
+/* Subtle drifting film-grain texture, layered fixed over the whole page by
+   components/GrainOverlay.tsx. */
+@keyframes grain {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-2%, -4%);
+  }
+  30% {
+    transform: translate(3%, -2%);
+  }
+  50% {
+    transform: translate(-3%, 3%);
+  }
+  70% {
+    transform: translate(2%, 4%);
+  }
+  90% {
+    transform: translate(-1%, 2%);
+  }
+}
+
+.animate-grain {
+  animation: grain 8s steps(8) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -75,7 +103,8 @@ html.js .reveal.is-visible {
     transition: none;
   }
   .animate-fade-in,
-  .animate-fade-up {
+  .animate-fade-up,
+  .animate-grain {
     animation: none;
   }
 }

@@ -7,24 +7,21 @@ const config: Config = {
     "./data/**/*.{ts,tsx}",
   ],
   theme: {
-    // Black + white with one bold yellow accent. No other colors.
+    // Near-black + off-white, monochrome. No accent color.
     colors: {
-      black: "#000000",
+      ink: "#0a0a09", // page background
+      panel: "#151513", // raised surface (hero / gallery / portrait plates)
+      cream: "#f2f0eb", // primary text, on ink
       white: "#ffffff",
-      gray: "#f5f5f5",
-      yellow: "#FFD60A",
+      black: "#000000",
       transparent: "transparent",
       current: "currentColor",
     },
     extend: {
       fontFamily: {
-        sans: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
-        display: [
-          "var(--font-display)",
-          '"Arial Narrow"',
-          "Helvetica",
-          "sans-serif",
-        ],
+        sans: ["var(--font-body)", '"Space Grotesk"', "sans-serif"],
+        mono: ["var(--font-mono)", '"Space Mono"', "monospace"],
+        display: ["var(--font-display)", '"Archivo"', "sans-serif"],
       },
       letterSpacing: {
         tightest: "-0.04em",

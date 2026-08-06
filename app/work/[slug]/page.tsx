@@ -1,13 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Placeholder from "@/components/Placeholder";
 import Reveal from "@/components/Reveal";
-import VideoEmbed from "@/components/VideoEmbed";
 import { getProject, getProjects } from "@/data/projects";
 
-export async function generateStaticParams() {
-  const projects = await getProjects();
-  return projects.map((project) => ({ slug: project.slug }));
+export function generateStaticParams() {
+  return getProjects().map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({
@@ -16,11 +14,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const project = await getProject(slug);
+  const project = getProject(slug);
   if (!project) return {};
   return {
     title: `${project.client} — ${project.title}`,
-    description: project.description,
+    description: project.hook,
   };
 }
 
@@ -30,107 +28,106 @@ export default async function ProjectPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const projects = await getProjects();
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) notFound();
+  const projects = getProjects();
+  const index = projects.findIndex((p) => p.slug === slug);
+  if (index === -1) notFound();
 
-  const currentIndex = projects.findIndex((p) => p.slug === slug);
-  const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
-  const nextProject =
-    currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
-
-  const meta = [project.category, project.year].filter(Boolean).join(", ");
+  const project = projects[index];
+  const next = projects[(index + 1) % projects.length];
+  const meta = [project.client, project.category, project.year]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <article>
-      <div className="animate-fade-in">
-        {project.videoUrl ? (
-          <VideoEmbed
-            url={project.videoUrl}
-            title={`${project.client} — ${project.title}`}
-          />
-        ) : (
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-black/5">
-            <Image
-              src={project.coverImage}
-              alt={`${project.client} — ${project.title}`}
-              fill
-              sizes="100vw"
-              className="object-cover"
-              unoptimized
-              priority
-            />
+      <div className="animate-fade-in relative h-[70vh] min-h-[440px] bg-panel lg:h-[78vh]">
+        <Placeholder label={project.heroPlaceholder} bordered={false} />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.92] via-black/[0.18] to-transparent" />
+
+        {project.hasVideo && (
+          <div className="pointer-events-none absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 sm:right-10 lg:right-12">
+            <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
+            <span className="text-[11px] tracking-wider">VIDEO</span>
           </div>
         )}
-      </div>
 
-      <header className="mt-10 animate-fade-up">
-        <p className="text-xs uppercase tracking-widest text-black/40">
-          {project.client}
-          {meta ? ` · ${meta}` : ""}
-        </p>
-        <h1 className="mt-3 font-display text-5xl uppercase leading-[0.88] tracking-tight text-black sm:text-7xl">
-          {project.title}
-        </h1>
-      </header>
-
-      {project.description && (
-        <Reveal>
-          <p className="mt-8 max-w-xl text-sm leading-relaxed text-black/70">
-            {project.description}
-          </p>
-        </Reveal>
-      )}
-
-      {project.credits.length > 0 && (
-        <Reveal>
-          <section className="mt-12 border-t border-black/10 pt-8">
-            <h2 className="text-xs uppercase tracking-widest text-black/40">
-              Credits
-            </h2>
-            <dl className="mt-5 max-w-xl">
-              {project.credits.map((credit) => (
-                <div
-                  key={`${credit.role}-${credit.name}`}
-                  className="grid grid-cols-2 gap-6 border-b border-black/10 py-2.5 text-xs uppercase tracking-widest"
-                >
-                  <dt className="text-black/40">{credit.role}</dt>
-                  <dd className="text-black">{credit.name}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        </Reveal>
-      )}
-
-      <nav className="mt-12 flex items-center justify-between border-t border-black/10 pt-8 text-xs uppercase tracking-widest">
-        {prevProject ? (
-          <Link
-            href={`/work/${prevProject.slug}/`}
-            className="text-black/40 transition-colors duration-200 hover:text-black"
-          >
-            ← Prev
-          </Link>
-        ) : (
-          <span />
-        )}
         <Link
           href="/"
-          className="text-black/40 transition-colors duration-200 hover:text-black"
+          className="absolute left-6 top-7 text-xs tracking-wide transition-opacity duration-200 hover:opacity-65 sm:left-10 lg:left-12"
         >
-          All works
+          ← ALL WORK
         </Link>
-        {nextProject ? (
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-10 lg:px-12 lg:pb-16">
+          <p className="mb-3.5 text-xs tracking-[0.14em] text-cream/70">
+            {meta}
+          </p>
+          <h1 className="max-w-4xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+            {project.title}
+          </h1>
+          <p className="mt-4 max-w-xl font-mono text-sm text-cream/70 sm:text-base">
+            {project.hook}
+          </p>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-10 sm:py-20 lg:px-12 lg:py-28">
+        <Reveal>
+          <div className="grid grid-cols-1 gap-6 border-t border-cream/[0.12] py-10 sm:grid-cols-[200px_1fr] sm:gap-10">
+            <div className="text-xs tracking-[0.14em] text-cream/55">
+              OVERVIEW
+            </div>
+            <div className="max-w-2xl text-lg font-medium leading-relaxed sm:text-xl">
+              {project.ask} {project.role}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal>
+          <div className="grid grid-cols-1 gap-6 border-y border-cream/[0.12] py-10 sm:grid-cols-[200px_1fr] sm:gap-10">
+            <div className="text-xs tracking-[0.14em] text-cream/55">
+              CREDITS
+            </div>
+            <div className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {project.credits.map((credit) => (
+                <div key={`${credit.role}-${credit.name}`}>
+                  <div className="text-[11px] tracking-wide text-cream/55">
+                    {credit.role}
+                  </div>
+                  <div className="mt-1 text-sm">{credit.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal>
+          <div className="pt-16 sm:pt-20 lg:pt-28">
+            <div className="mb-7 text-xs tracking-[0.14em] text-cream/55">
+              MORE FROM THIS PROJECT
+            </div>
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {project.gallery.map((caption, i) => (
+                <div
+                  key={i}
+                  className="relative aspect-[4/3] overflow-hidden bg-panel"
+                >
+                  <Placeholder label={caption} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="pt-20 text-right sm:pt-24 lg:pt-32">
           <Link
-            href={`/work/${nextProject.slug}/`}
-            className="text-black/40 transition-colors duration-200 hover:text-black"
+            href={`/work/${next.slug}/`}
+            className="text-[13px] tracking-wide text-cream/55 transition-colors duration-200 hover:text-cream"
           >
-            Next →
+            NEXT PROJECT — {next.title} →
           </Link>
-        ) : (
-          <span />
-        )}
-      </nav>
+        </div>
+      </div>
     </article>
   );
 }
