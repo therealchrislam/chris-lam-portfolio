@@ -16,7 +16,7 @@ export default function Header() {
     }`;
 
   return (
-    <header className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-cream/[0.14] px-6 py-10 sm:px-10 sm:py-14 lg:px-12 lg:py-16">
+    <header className="sticky top-0 z-50 grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-cream/[0.14] px-6 py-10 sm:px-10 sm:py-14 lg:px-12 lg:py-16">
       <nav className="flex flex-col gap-2.5">
         <Link href="/" className={linkClass(pathname === "/")}>
           WORK

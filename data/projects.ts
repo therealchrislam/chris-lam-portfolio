@@ -19,7 +19,7 @@ export type Project = {
   /** Supporting bullet detail — not shown on the page yet, kept for future use. */
   work: string[];
   credits: Credit[];
-  /** Captions for the "more from this project" gallery — placeholders until real stills are dropped in. */
+  /** Gallery captions — not shown on the page currently, kept for future use. */
   gallery: string[];
   /** Caption for the homepage grid tile placeholder. */
   tilePlaceholder: string;

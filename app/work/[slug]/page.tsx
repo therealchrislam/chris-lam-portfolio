@@ -94,16 +94,23 @@ export default async function ProjectPage({
 
       <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-10 sm:py-20 lg:px-12 lg:py-28">
         <Reveal>
-          <div className="grid grid-cols-1 gap-6 border-t border-cream/[0.12] py-10 sm:grid-cols-[200px_1fr] sm:gap-10">
+          <div className="grid grid-cols-1 gap-6 border-y border-cream/[0.12] py-10 sm:grid-cols-[200px_1fr] sm:gap-10">
             <div className="text-xs tracking-[0.14em] text-cream/55">
-              OVERVIEW
+              CREDITS
             </div>
-            <div className="max-w-2xl">
-              <p className="text-lg font-medium leading-relaxed sm:text-xl">
-                {project.ask} {project.role}
-              </p>
+            <div>
+              <div className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {project.credits.map((credit) => (
+                  <div key={`${credit.role}-${credit.name}`}>
+                    <div className="text-[11px] tracking-wide text-cream/55">
+                      {credit.role}
+                    </div>
+                    <div className="mt-1 text-sm">{credit.name}</div>
+                  </div>
+                ))}
+              </div>
               {project.press && project.press.length > 0 && (
-                <div className="mt-5 flex flex-wrap gap-5">
+                <div className="mt-8 flex flex-wrap gap-5">
                   {project.press.map((p) => (
                     <a
                       key={p.url}
@@ -121,43 +128,7 @@ export default async function ProjectPage({
           </div>
         </Reveal>
 
-        <Reveal>
-          <div className="grid grid-cols-1 gap-6 border-y border-cream/[0.12] py-10 sm:grid-cols-[200px_1fr] sm:gap-10">
-            <div className="text-xs tracking-[0.14em] text-cream/55">
-              CREDITS
-            </div>
-            <div className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {project.credits.map((credit) => (
-                <div key={`${credit.role}-${credit.name}`}>
-                  <div className="text-[11px] tracking-wide text-cream/55">
-                    {credit.role}
-                  </div>
-                  <div className="mt-1 text-sm">{credit.name}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal>
-          <div className="pt-16 sm:pt-20 lg:pt-28">
-            <div className="mb-7 text-xs tracking-[0.14em] text-cream/55">
-              MORE FROM THIS PROJECT
-            </div>
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {project.gallery.map((caption, i) => (
-                <div
-                  key={i}
-                  className="relative aspect-[4/3] overflow-hidden bg-panel"
-                >
-                  <Placeholder label={caption} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-
-        <div className="pt-20 text-right sm:pt-24 lg:pt-32">
+        <div className="pt-16 text-right sm:pt-20 lg:pt-24">
           <Link
             href={`/work/${next.slug}/`}
             className="text-[13px] tracking-wide text-cream/55 transition-colors duration-200 hover:text-cream"
