@@ -44,13 +44,13 @@ export default async function ProjectPage({
   const externalOnly = Boolean(project.videoUrl) && !embedUrl;
 
   return (
-    <article>
+    <article className="animate-page-in">
       {embedUrl ? (
         // A real player: sized to its own 16:9 aspect instead of the tall
         // cinematic hero below, so it never letterboxes with dead black
         // space, and the title sits in normal flow underneath it instead of
         // fighting the player's own control bar for the same pixels.
-        <div className="animate-fade-in">
+        <div>
           <div className="px-6 pt-8 sm:px-10 lg:px-12">
             <Link
               href="/"
@@ -68,7 +68,10 @@ export default async function ProjectPage({
               allowFullScreen
             />
           </div>
-          <div className="px-6 pt-8 sm:px-10 lg:px-12">
+          <div
+            className="animate-fade-up px-6 pt-8 sm:px-10 lg:px-12"
+            style={{ animationDelay: "150ms" }}
+          >
             <p className="mb-3.5 text-xs tracking-[0.14em] text-cream/55">
               {meta}
             </p>
@@ -81,7 +84,7 @@ export default async function ProjectPage({
           </div>
         </div>
       ) : (
-        <div className="animate-fade-in relative h-[70vh] min-h-[440px] overflow-hidden bg-panel lg:h-[78vh]">
+        <div className="relative h-[70vh] min-h-[440px] overflow-hidden bg-panel lg:h-[78vh]">
           <Placeholder label={project.heroPlaceholder} bordered={false} />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.92] via-black/[0.18] to-transparent" />
 
@@ -92,7 +95,10 @@ export default async function ProjectPage({
             ← ALL WORK
           </Link>
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-10 lg:px-12 lg:pb-16">
+          <div
+            className="animate-fade-up pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-10 lg:px-12 lg:pb-16"
+            style={{ animationDelay: "150ms" }}
+          >
             <p className="mb-3.5 text-xs tracking-[0.14em] text-cream/70">
               {meta}
             </p>

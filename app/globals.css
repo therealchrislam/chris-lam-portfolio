@@ -65,6 +65,28 @@ html.js .reveal.is-visible {
   animation: fade-up 0.8s var(--ease-out-soft) both;
 }
 
+/* Cinematic entrance for a project page's hero/player on click-through from
+   the grid — settles in from a soft zoom + blur rather than a flat fade, so
+   navigating into a project feels like a deliberate reveal. Next.js
+   remounts page.tsx on every navigation between /work/[slug] routes, so
+   this retriggers on each project-to-project click, not just first load. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: scale(1.035);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-page-in {
+  animation: page-in 1s var(--ease-out-soft) both;
+}
+
 /* Subtle drifting film-grain texture, layered fixed over the whole page by
    components/GrainOverlay.tsx. */
 @keyframes grain {
@@ -104,6 +126,7 @@ html.js .reveal.is-visible {
   }
   .animate-fade-in,
   .animate-fade-up,
+  .animate-page-in,
   .animate-grain {
     animation: none;
   }
