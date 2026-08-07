@@ -85,24 +85,6 @@ export default async function ProjectPage({
           <Placeholder label={project.heroPlaceholder} bordered={false} />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.92] via-black/[0.18] to-transparent" />
 
-          {project.hasVideo &&
-            (externalOnly ? (
-              <a
-                href={project.videoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 transition-colors duration-200 hover:border-cream/60 hover:bg-black/60 sm:right-10 lg:right-12"
-              >
-                <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
-                <span className="text-[11px] tracking-wider">WATCH</span>
-              </a>
-            ) : (
-              <div className="pointer-events-none absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 sm:right-10 lg:right-12">
-                <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
-                <span className="text-[11px] tracking-wider">VIDEO</span>
-              </div>
-            ))}
-
           <Link
             href="/"
             className="absolute left-6 top-7 text-xs tracking-wide transition-opacity duration-200 hover:opacity-65 sm:left-10 lg:left-12"
