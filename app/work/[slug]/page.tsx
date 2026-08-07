@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Placeholder from "@/components/Placeholder";
 import Reveal from "@/components/Reveal";
 import { getProject, getProjects } from "@/data/projects";
+import { getVimeoEmbedUrl } from "@/lib/video";
 
 export function generateStaticParams() {
   return getProjects().map((project) => ({ slug: project.slug }));
@@ -37,60 +38,101 @@ export default async function ProjectPage({
   const meta = [project.client, project.category, project.year]
     .filter(Boolean)
     .join(" · ");
+  const embedUrl = getVimeoEmbedUrl(project.videoUrl);
+  // videoUrl exists but isn't a single embeddable video (e.g. a Vimeo
+  // folder link) — the only way to watch it is off-site.
+  const externalOnly = Boolean(project.videoUrl) && !embedUrl;
 
   return (
     <article>
-      <div className="animate-fade-in relative h-[70vh] min-h-[440px] bg-panel lg:h-[78vh]">
-        <Placeholder label={project.heroPlaceholder} bordered={false} />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.92] via-black/[0.18] to-transparent" />
-
-        {project.hasVideo &&
-          (project.videoUrl ? (
-            <a
-              href={project.videoUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 transition-colors duration-200 hover:border-cream/60 hover:bg-black/60 sm:right-10 lg:right-12"
+      {embedUrl ? (
+        // A real player: sized to its own 16:9 aspect instead of the tall
+        // cinematic hero below, so it never letterboxes with dead black
+        // space, and the title sits in normal flow underneath it instead of
+        // fighting the player's own control bar for the same pixels.
+        <div className="animate-fade-in">
+          <div className="px-6 pt-8 sm:px-10 lg:px-12">
+            <Link
+              href="/"
+              className="inline-block text-xs tracking-wide text-cream/70 transition-colors duration-200 hover:text-cream"
             >
-              <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
-              <span className="text-[11px] tracking-wider">WATCH</span>
-            </a>
-          ) : (
-            <div className="pointer-events-none absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 sm:right-10 lg:right-12">
-              <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
-              <span className="text-[11px] tracking-wider">VIDEO</span>
-            </div>
-          ))}
-
-        <Link
-          href="/"
-          className="absolute left-6 top-7 text-xs tracking-wide transition-opacity duration-200 hover:opacity-65 sm:left-10 lg:left-12"
-        >
-          ← ALL WORK
-        </Link>
-
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-10 lg:px-12 lg:pb-16">
-          <p className="mb-3.5 text-xs tracking-[0.14em] text-cream/70">
-            {meta}
-          </p>
-          <h1 className="max-w-4xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-            {project.title}
-          </h1>
-          <p className="mt-4 max-w-xl font-mono text-sm text-cream/70 sm:text-base">
-            {project.hook}
-          </p>
-          {project.videoUrl && (
-            <a
-              href={project.videoUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="pointer-events-auto mt-5 inline-block text-xs tracking-wide text-cream underline decoration-cream/40 underline-offset-4 transition-colors duration-200 hover:decoration-cream"
-            >
-              WATCH THE FILM ↗
-            </a>
-          )}
+              ← ALL WORK
+            </Link>
+          </div>
+          <div className="relative mt-6 aspect-video w-full bg-black sm:mt-8">
+            <iframe
+              src={embedUrl}
+              title={`${project.client} — ${project.title}`}
+              className="absolute inset-0 h-full w-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="px-6 pt-8 sm:px-10 lg:px-12">
+            <p className="mb-3.5 text-xs tracking-[0.14em] text-cream/55">
+              {meta}
+            </p>
+            <h1 className="max-w-4xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+              {project.title}
+            </h1>
+            <p className="mt-4 max-w-xl font-mono text-sm text-cream/70 sm:text-base">
+              {project.hook}
+            </p>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="animate-fade-in relative h-[70vh] min-h-[440px] overflow-hidden bg-panel lg:h-[78vh]">
+          <Placeholder label={project.heroPlaceholder} bordered={false} />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/[0.92] via-black/[0.18] to-transparent" />
+
+          {project.hasVideo &&
+            (externalOnly ? (
+              <a
+                href={project.videoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 transition-colors duration-200 hover:border-cream/60 hover:bg-black/60 sm:right-10 lg:right-12"
+              >
+                <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
+                <span className="text-[11px] tracking-wider">WATCH</span>
+              </a>
+            ) : (
+              <div className="pointer-events-none absolute right-6 top-7 flex items-center gap-2 rounded-full border border-cream/30 bg-black/40 px-3.5 py-2 sm:right-10 lg:right-12">
+                <span className="h-0 w-0 border-y-[5px] border-y-transparent border-l-[7px] border-l-cream" />
+                <span className="text-[11px] tracking-wider">VIDEO</span>
+              </div>
+            ))}
+
+          <Link
+            href="/"
+            className="absolute left-6 top-7 text-xs tracking-wide transition-opacity duration-200 hover:opacity-65 sm:left-10 lg:left-12"
+          >
+            ← ALL WORK
+          </Link>
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10 sm:px-10 lg:px-12 lg:pb-16">
+            <p className="mb-3.5 text-xs tracking-[0.14em] text-cream/70">
+              {meta}
+            </p>
+            <h1 className="max-w-4xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+              {project.title}
+            </h1>
+            <p className="mt-4 max-w-xl font-mono text-sm text-cream/70 sm:text-base">
+              {project.hook}
+            </p>
+            {externalOnly && (
+              <a
+                href={project.videoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="pointer-events-auto mt-5 inline-block text-xs tracking-wide text-cream underline decoration-cream/40 underline-offset-4 transition-colors duration-200 hover:decoration-cream"
+              >
+                WATCH ON VIMEO ↗
+              </a>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-10 sm:py-20 lg:px-12 lg:py-28">
         <Reveal>
