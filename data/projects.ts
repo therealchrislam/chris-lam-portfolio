@@ -189,7 +189,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["Archival still", "On-set still", "Finishing detail"],
-    videoUrl: "https://vimeo.com/737717529",
+    videoUrl: "https://vimeo.com/817998639",
     press: [
       {
         label: "Ad Age",
@@ -219,6 +219,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Athlete portrait", "Campaign still"],
+    videoUrl: "https://vimeo.com/854155767",
   },
   {
     slug: "nike-resolutions",
@@ -242,6 +243,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Campaign still"],
+    videoUrl: "https://vimeo.com/772727582",
   },
   {
     slug: "nike-serena-legacy",
@@ -265,6 +267,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["Archival still", "Interview still"],
+    videoUrl: "https://vimeo.com/818004204",
   },
   {
     slug: "nike-undefeated",
@@ -288,6 +291,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Product still"],
+    videoUrl: "https://vimeo.com/user/88668378/folder/15809583",
   },
   {
     slug: "mlb-baseball-is-something-else",
@@ -311,6 +315,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Campaign still"],
+    videoUrl: "https://vimeo.com/814046748",
   },
   {
     slug: "nike-work-in-progress",
@@ -377,6 +382,7 @@ export const projects: Project[] = [
     ],
     credits: [{ role: "PRODUCER", name: "Chris Lam" }],
     gallery: ["Film still 1", "Film still 2"],
+    videoUrl: "https://vimeo.com/829577506",
   },
   {
     slug: "ea-fc-24",
@@ -446,6 +452,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Campaign still"],
+    videoUrl: "https://vimeo.com/1079014326",
   },
   {
     slug: "production-templates",
