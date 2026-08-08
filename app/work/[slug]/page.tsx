@@ -116,6 +116,77 @@ export default async function ProjectPage({
             </p>
           </div>
         </div>
+      ) : project.stills && project.stills.length > 0 ? (
+        // No video, but real photography exists: a strong first image as
+        // the hero, everything else in a plain grid below — same shape as
+        // the video layout (back link → media → title) so photo-only
+        // projects read as intentional, not like a placeholder waiting on
+        // an asset.
+        <div>
+          <div className="px-6 pt-8 sm:px-10 lg:px-12">
+            <Link
+              href="/"
+              className="inline-block text-xs tracking-wide text-cream/70 transition-colors duration-200 hover:text-cream"
+            >
+              ← ALL WORK
+            </Link>
+          </div>
+          {project.stillsGrid ? (
+            // Masonry: every image keeps its own source aspect ratio
+            // (no cropping) — for sets whose stills range from portrait
+            // selfies to square swings to wide crowd shots.
+            <div className="mt-6 columns-2 gap-2 px-6 sm:mt-8 sm:columns-3 sm:gap-3 sm:px-10 lg:px-12">
+              {project.stills.map((src) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={`${project.client} — ${project.title}`}
+                  className="mb-2 w-full break-inside-avoid bg-panel sm:mb-3"
+                />
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="relative mt-6 aspect-video w-full bg-panel sm:mt-8">
+                <img
+                  src={project.stills[0]}
+                  alt={`${project.client} — ${project.title}`}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+              {project.stills.length > 1 && (
+                <div className="mt-2 grid grid-cols-2 gap-2 px-6 sm:mt-3 sm:grid-cols-3 sm:gap-3 sm:px-10 lg:px-12">
+                  {project.stills.slice(1).map((src) => (
+                    <div
+                      key={src}
+                      className="relative aspect-[4/3] overflow-hidden bg-panel"
+                    >
+                      <img
+                        src={src}
+                        alt={`${project.client} — ${project.title}`}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+          <div
+            className="animate-fade-up px-6 pt-8 sm:px-10 lg:px-12"
+            style={{ animationDelay: "150ms" }}
+          >
+            <p className="mb-3.5 text-xs tracking-[0.14em] text-cream/55">
+              {meta}
+            </p>
+            <h1 className="max-w-4xl font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
+              {project.title}
+            </h1>
+            <p className="mt-4 max-w-xl font-mono text-sm text-cream/70 sm:text-base">
+              {project.hook}
+            </p>
+          </div>
+        </div>
       ) : (
         <div className="relative h-[70vh] min-h-[440px] overflow-hidden bg-panel lg:h-[78vh]">
           <Placeholder label={project.heroPlaceholder} bordered={false} />

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GrainOverlay from "@/components/GrainOverlay";
+import CustomCursor from "@/components/CustomCursor";
 
 // Bold, condensed display face for the wordmark + headline titles.
 const archivo = Archivo({
@@ -59,6 +60,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-ink font-sans text-cream antialiased selection:bg-cream selection:text-ink">
+        <CustomCursor />
         <GrainOverlay />
         <Header />
         <main>{children}</main>

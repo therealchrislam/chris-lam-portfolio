@@ -21,9 +21,9 @@ export default async function HomePage() {
             className="group relative block aspect-[3/4] overflow-hidden bg-ink"
           >
             <div className="absolute inset-0 transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]">
-              {thumbnails[i] ? (
+              {thumbnails[i] || project.stills?.[0] ? (
                 <img
-                  src={thumbnails[i]!}
+                  src={thumbnails[i] ?? project.stills![0]}
                   alt={`${project.client} — ${project.title}`}
                   className="absolute inset-0 h-full w-full object-cover"
                 />
