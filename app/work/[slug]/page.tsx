@@ -38,18 +38,45 @@ export default async function ProjectPage({
   const meta = [project.client, project.category, project.year]
     .filter(Boolean)
     .join(" · ");
-  const embedUrl = getVimeoEmbedUrl(project.videoUrl);
-  // videoUrl exists but isn't a single embeddable video (e.g. a Vimeo
-  // folder link) — the only way to watch it is off-site.
-  const externalOnly = Boolean(project.videoUrl) && !embedUrl;
+  const videoUrls = project.videoUrls ?? [];
+  const embedUrls = videoUrls
+    .map((url) => getVimeoEmbedUrl(url))
+    .filter((url): url is string => Boolean(url));
+  // Links that exist but aren't a single embeddable video (e.g. a Vimeo
+  // folder link) — the only way to watch those is off-site.
+  const externalUrls = videoUrls.filter((url) => !getVimeoEmbedUrl(url));
+  // Agency/client sit apart from the crew grid — who commissioned it, set
+  // off with a rule, above who actually made it.
+  const topCredits = project.credits.filter(
+    (c) => c.role === "AGENCY" || c.role === "CLIENT",
+  );
+  const crewCredits = project.credits.filter(
+    (c) => c.role !== "AGENCY" && c.role !== "CLIENT",
+  );
+  // Crew credits can optionally be tagged with a `group` (e.g. "AGENCY",
+  // "PRODUCTION") to render as its own labeled section — in department
+  // order of first appearance. Anything ungrouped renders as one plain
+  // grid, same as every project that doesn't use this.
+  const ungroupedCrew = crewCredits.filter((c) => !c.group);
+  const creditGroups = crewCredits.reduce<{ group: string; items: typeof crewCredits }[]>(
+    (groups, credit) => {
+      if (!credit.group) return groups;
+      const bucket = groups.find((g) => g.group === credit.group);
+      if (bucket) bucket.items.push(credit);
+      else groups.push({ group: credit.group, items: [credit] });
+      return groups;
+    },
+    [],
+  );
 
   return (
     <article className="animate-page-in">
-      {embedUrl ? (
-        // A real player: sized to its own 16:9 aspect instead of the tall
-        // cinematic hero below, so it never letterboxes with dead black
-        // space, and the title sits in normal flow underneath it instead of
-        // fighting the player's own control bar for the same pixels.
+      {embedUrls.length > 0 ? (
+        // Real player(s): each sized to its own 16:9 aspect instead of the
+        // tall cinematic hero below, so they never letterbox with dead
+        // black space, and the title sits in normal flow underneath
+        // instead of fighting the player's own control bar for the same
+        // pixels. Stacked when a project shipped more than one cut.
         <div>
           <div className="px-6 pt-8 sm:px-10 lg:px-12">
             <Link
@@ -59,14 +86,20 @@ export default async function ProjectPage({
               ← ALL WORK
             </Link>
           </div>
-          <div className="relative mt-6 aspect-video w-full bg-black sm:mt-8">
-            <iframe
-              src={embedUrl}
-              title={`${project.client} — ${project.title}`}
-              className="absolute inset-0 h-full w-full"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
+          <div className="mt-6 space-y-2 sm:mt-8 sm:space-y-3">
+            {embedUrls.map((url, i) => (
+              <div key={url} className="relative aspect-video w-full bg-black">
+                <iframe
+                  src={url}
+                  title={`${project.client} — ${project.title}${
+                    embedUrls.length > 1 ? ` — Spot ${i + 1}` : ""
+                  }`}
+                  className="absolute inset-0 h-full w-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ))}
           </div>
           <div
             className="animate-fade-up px-6 pt-8 sm:px-10 lg:px-12"
@@ -108,15 +141,21 @@ export default async function ProjectPage({
             <p className="mt-4 max-w-xl font-mono text-sm text-cream/70 sm:text-base">
               {project.hook}
             </p>
-            {externalOnly && (
-              <a
-                href={project.videoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="pointer-events-auto mt-5 inline-block text-xs tracking-wide text-cream underline decoration-cream/40 underline-offset-4 transition-colors duration-200 hover:decoration-cream"
-              >
-                WATCH ON VIMEO ↗
-              </a>
+            {externalUrls.length > 0 && (
+              <div className="pointer-events-auto mt-5 flex flex-wrap gap-4">
+                {externalUrls.map((url, i) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-block text-xs tracking-wide text-cream underline decoration-cream/40 underline-offset-4 transition-colors duration-200 hover:decoration-cream"
+                  >
+                    WATCH ON VIMEO
+                    {externalUrls.length > 1 ? ` #${i + 1}` : ""} ↗
+                  </a>
+                ))}
+              </div>
             )}
           </div>
         </div>
@@ -129,13 +168,46 @@ export default async function ProjectPage({
               CREDITS
             </div>
             <div>
-              <div className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {project.credits.map((credit) => (
-                  <div key={`${credit.role}-${credit.name}`}>
-                    <div className="text-[11px] tracking-wide text-cream/55">
-                      {credit.role}
+              {topCredits.length > 0 && (
+                <div className="mb-8 flex flex-wrap gap-x-10 gap-y-5 border-b border-cream/[0.12] pb-8 sm:mb-10 sm:pb-10">
+                  {topCredits.map((credit) => (
+                    <div key={`${credit.role}-${credit.name}`}>
+                      <div className="text-[11px] tracking-wide text-cream/55">
+                        {credit.role}
+                      </div>
+                      <div className="mt-1 text-sm">{credit.name}</div>
                     </div>
-                    <div className="mt-1 text-sm">{credit.name}</div>
+                  ))}
+                </div>
+              )}
+              <div className="space-y-8 sm:space-y-10">
+                {ungroupedCrew.length > 0 && (
+                  <div className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {ungroupedCrew.map((credit) => (
+                      <div key={`${credit.role}-${credit.name}`}>
+                        <div className="text-[11px] tracking-wide text-cream/55">
+                          {credit.role}
+                        </div>
+                        <div className="mt-1 text-sm">{credit.name}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {creditGroups.map((g) => (
+                  <div key={g.group}>
+                    <div className="mb-4 text-[11px] tracking-[0.14em] text-cream/55">
+                      {g.group}
+                    </div>
+                    <div className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                      {g.items.map((credit) => (
+                        <div key={`${credit.role}-${credit.name}`}>
+                          <div className="text-[11px] tracking-wide text-cream/55">
+                            {credit.role}
+                          </div>
+                          <div className="mt-1 text-sm">{credit.name}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>

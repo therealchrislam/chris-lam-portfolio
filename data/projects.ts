@@ -1,6 +1,10 @@
 export type Credit = {
   role: string;
   name: string;
+  /** Optional section heading this credit falls under (e.g. "AGENCY",
+   * "PRODUCTION"). Credits without a group render in the plain top row —
+   * existing projects with a flat credits list are unaffected. */
+  group?: string;
 };
 
 export type Project = {
@@ -25,8 +29,9 @@ export type Project = {
   tilePlaceholder: string;
   /** Caption for the project-page hero placeholder. */
   heroPlaceholder: string;
-  /** Link to the real film (Vimeo, YouTube, etc.), when one exists. */
-  videoUrl?: string;
+  /** Links to the real film(s) on Vimeo, when they exist. Usually one, but
+   * a campaign can ship as several cuts/spots. */
+  videoUrls?: string[];
   /** Outside coverage — trade press, articles. */
   press?: { label: string; url: string }[];
 };
@@ -37,14 +42,14 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "footlocker-black-white",
-    title: "It's Black and White / Colors",
+    title: "It Always Will Be Foot Locker",
     client: "Foot Locker",
     category: "Branded Film",
-    year: "2024",
+    year: "2026",
     hasVideo: true,
     hook: "A sneaker culture time machine — from the playgrounds of the '80s to the game today.",
-    tilePlaceholder: 'Foot Locker — still from "It\'s Black and White / Colors"',
-    heroPlaceholder: 'Hero still — "It\'s Black and White / Colors"',
+    tilePlaceholder: "Foot Locker — still from \"It Always Will Be Foot Locker\"",
+    heroPlaceholder: "Hero still — \"It Always Will Be Foot Locker\"",
     ask: "Foot Locker asked for a film that could hold four decades of sneaker culture in one piece — legends, courts, and colorways — without feeling like a nostalgia reel.",
     role: "Line produced the project from casting through delivery: assembled the callback list, ran clearance strategy across every archival element, and kept a fast-moving production on schedule and on budget.",
     work: [
@@ -55,12 +60,23 @@ export const projects: Project[] = [
       "Managed legal and licensing timelines in parallel with an aggressive post schedule",
     ],
     credits: [
-      { role: "AGENCY", name: "Special Group" },
       { role: "CLIENT", name: "Foot Locker" },
-      { role: "DIRECTOR", name: "TBD" },
-      { role: "PRODUCTION CO.", name: "TBD" },
-      { role: "EDITORIAL", name: "TBD" },
-      { role: "PRODUCER", name: "Chris Lam" },
+      { role: "CHIEF CREATIVE OFFICER", name: "Alberto Ponte", group: "AGENCY — SOMEPLACE" },
+      { role: "CHIEF CREATIVE OFFICER", name: "Ryan O'Rourke", group: "AGENCY — SOMEPLACE" },
+      { role: "CREATIVE DIRECTOR", name: "Kevin Steele", group: "AGENCY — SOMEPLACE" },
+      { role: "COPYWRITER", name: "Adam Crouch", group: "AGENCY — SOMEPLACE" },
+      { role: "ART DIRECTOR", name: "Kyle Chin", group: "AGENCY — SOMEPLACE" },
+      { role: "EXECUTIVE PRODUCER", name: "Shelley Eisner", group: "AGENCY — SOMEPLACE" },
+      { role: "PRODUCER", name: "Chris Lam", group: "AGENCY — SOMEPLACE" },
+      { role: "DESIGNER", name: "Arthur Daraujo", group: "AGENCY — SOMEPLACE" },
+      { role: "DIRECTOR", name: "Kim Gehrig", group: "PRODUCTION" },
+      { role: "PRODUCTION CO.", name: "Somesuch", group: "PRODUCTION" },
+      { role: "EDITORIAL", name: "Trim Editorial", group: "PRODUCTION" },
+      { role: "EDITOR", name: "Tom Lindsay", group: "PRODUCTION" },
+      { role: "COLOR", name: "Trafik", group: "PRODUCTION" },
+      { role: "VISUAL EFFECTS", name: "Parliament", group: "PRODUCTION" },
+      { role: "MUSIC", name: "Soundtree Music", group: "PRODUCTION" },
+      { role: "SOUND DESIGN / MIX", name: "Field Day Sound", group: "PRODUCTION" },
     ],
     gallery: [
       "Archival still — 1980s courts",
@@ -68,6 +84,7 @@ export const projects: Project[] = [
       "On-set — prop clearance detail",
       "Archival still — present day",
     ],
+    videoUrls: ["https://vimeo.com/manage/videos/1216591120"],
   },
   {
     slug: "fox-sports-fifa26",
@@ -90,11 +107,11 @@ export const projects: Project[] = [
     ],
     credits: [
       { role: "CLIENT", name: "Fox Sports" },
-      { role: "EDITORIAL", name: "TBD" },
-      { role: "VFX / FINISHING", name: "TBD" },
-      { role: "COLOR", name: "TBD" },
-      { role: "SOUND MIX", name: "TBD" },
-      { role: "PRODUCER", name: "Chris Lam" },
+      { role: "EDITORIAL", name: "TBD", group: "PRODUCTION" },
+      { role: "VFX / FINISHING", name: "TBD", group: "PRODUCTION" },
+      { role: "COLOR", name: "TBD", group: "PRODUCTION" },
+      { role: "SOUND MIX", name: "TBD", group: "PRODUCTION" },
+      { role: "PRODUCER", name: "Chris Lam", group: "PRODUCTION" },
     ],
     gallery: [
       "Broadcast spot — still 1",
@@ -102,36 +119,9 @@ export const projects: Project[] = [
       "Color grade reference",
       "Finishing / VFX detail",
     ],
-  },
-  {
-    slug: "postmates-la-icons",
-    title: "LA Icons",
-    client: "Postmates",
-    category: "OOH Campaign",
-    year: "2023",
-    hasVideo: false,
-    hook: "Billboards that turned LA's skyline into a Postmates delivery route.",
-    tilePlaceholder: 'Postmates — "LA Icons" billboard still',
-    heroPlaceholder: 'Hero still — "LA Icons" OOH campaign',
-    ask: "Postmates wanted an OOH campaign that felt native to Los Angeles — landmarks reimagined as icons only a local would get.",
-    role: "Produced the OOH rollout start to finish: billboard installations, mural vendor coordination, and the retouching pipeline that got every mechanical to spec.",
-    work: [
-      "Sourced and coordinated mural vendors across multiple Los Angeles locations",
-      "Managed the retouching and mechanicals workflow from concept art to install-ready files",
-      "Oversaw billboard installation logistics and site permitting",
-      "Produced a parody microsite tie-in to extend the campaign online",
-    ],
-    credits: [
-      { role: "CLIENT", name: "Postmates" },
-      { role: "MURAL VENDORS", name: "TBD" },
-      { role: "RETOUCHING", name: "TBD" },
-      { role: "PRODUCER", name: "Chris Lam" },
-    ],
-    gallery: [
-      "Billboard install — Location 1",
-      "Mural in progress",
-      "Mechanical / retouch comp",
-      "Microsite still",
+    videoUrls: [
+      "https://vimeo.com/manage/videos/1216591709",
+      "https://vimeo.com/manage/videos/1216591735",
     ],
   },
   {
@@ -149,16 +139,16 @@ export const projects: Project[] = [
     work: [],
     credits: [
       { role: "CLIENT", name: "Nike" },
-      { role: "CREATIVE DIRECTOR", name: "Ryan O'Rourke" },
-      { role: "CREATIVE DIRECTOR", name: "Alberto Ponte" },
-      { role: "COPYWRITER", name: "Kevin Steele" },
-      { role: "ART DIRECTOR", name: "Pedro Izique" },
-      { role: "EP", name: "Byron Oshiro" },
-      { role: "SENIOR PRODUCER", name: "Antonio Burnett" },
-      { role: "PRODUCER", name: "Chris Lam" },
+      { role: "CREATIVE DIRECTOR", name: "Ryan O'Rourke", group: "AGENCY" },
+      { role: "CREATIVE DIRECTOR", name: "Alberto Ponte", group: "AGENCY" },
+      { role: "COPYWRITER", name: "Kevin Steele", group: "AGENCY" },
+      { role: "ART DIRECTOR", name: "Pedro Izique", group: "AGENCY" },
+      { role: "EP", name: "Byron Oshiro", group: "AGENCY" },
+      { role: "SENIOR PRODUCER", name: "Antonio Burnett", group: "AGENCY" },
+      { role: "PRODUCER", name: "Chris Lam", group: "AGENCY" },
     ],
     gallery: ["Archival still", "On-set still", "Finishing detail"],
-    videoUrl: "https://vimeo.com/817998639",
+    videoUrls: ["https://vimeo.com/817998639"],
     press: [
       {
         label: "Ad Age",
@@ -188,7 +178,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Athlete portrait", "Campaign still"],
-    videoUrl: "https://vimeo.com/854155767",
+    videoUrls: ["https://vimeo.com/854155767"],
   },
   {
     slug: "nike-resolutions",
@@ -212,7 +202,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Campaign still"],
-    videoUrl: "https://vimeo.com/772727582",
+    videoUrls: ["https://vimeo.com/772727582"],
   },
   {
     slug: "nike-serena-legacy",
@@ -236,7 +226,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["Archival still", "Interview still"],
-    videoUrl: "https://vimeo.com/818004204",
+    videoUrls: ["https://vimeo.com/818004204"],
   },
   {
     slug: "nike-undefeated",
@@ -260,7 +250,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Product still"],
-    videoUrl: "https://vimeo.com/user/88668378/folder/15809583",
+    videoUrls: ["https://vimeo.com/user/88668378/folder/15809583"],
   },
   {
     slug: "mlb-baseball-is-something-else",
@@ -284,7 +274,7 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Campaign still"],
-    videoUrl: "https://vimeo.com/814046748",
+    videoUrls: ["https://vimeo.com/814046748"],
   },
   {
     slug: "nike-work-in-progress",
@@ -351,7 +341,7 @@ export const projects: Project[] = [
     ],
     credits: [{ role: "PRODUCER", name: "Chris Lam" }],
     gallery: ["Film still 1", "Film still 2"],
-    videoUrl: "https://vimeo.com/829577506",
+    videoUrls: ["https://vimeo.com/829577506"],
   },
   {
     slug: "ea-fc-24",
@@ -421,7 +411,33 @@ export const projects: Project[] = [
       { role: "PRODUCER", name: "Chris Lam" },
     ],
     gallery: ["On-set still", "Campaign still"],
-    videoUrl: "https://vimeo.com/1079014326",
+    videoUrls: ["https://vimeo.com/1079014326"],
+  },
+  {
+    // TODO: placeholder copy below (hook/ask/role/category/year) — confirm
+    // and update once the real brief details are in hand.
+    slug: "uber-eats-superbowl",
+    title: "Uber Eats Super Bowl",
+    client: "Uber Eats",
+    category: "Real-Time Content",
+    year: "2026",
+    hasVideo: true,
+    hook: "Reactive creative built to ride the biggest night in football.",
+    tilePlaceholder: "Uber Eats — Super Bowl campaign still",
+    heroPlaceholder: "Hero still — Uber Eats Super Bowl",
+    ask: "Uber Eats needed a reactive content pipeline that could turn around creative live around Super Bowl weekend.",
+    role: "Produced the reactive production pipeline across multiple spots.",
+    work: [],
+    credits: [
+      { role: "CLIENT", name: "Uber Eats" },
+      { role: "PRODUCER", name: "Chris Lam" },
+    ],
+    gallery: ["Spot 1 still", "Spot 2 still", "Spot 3 still"],
+    videoUrls: [
+      "https://vimeo.com/manage/videos/1216591706",
+      "https://vimeo.com/manage/videos/1216591707",
+      "https://vimeo.com/manage/videos/1216591708",
+    ],
   },
 ];
 

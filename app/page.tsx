@@ -9,7 +9,7 @@ export default async function HomePage() {
   // Real thumbnail from Vimeo where we have a video link; falls back to the
   // Placeholder tile for anything without one (or on fetch failure).
   const thumbnails = await Promise.all(
-    projects.map((project) => getVimeoThumbnail(project.videoUrl)),
+    projects.map((project) => getVimeoThumbnail(project.videoUrls?.[0])),
   );
 
   return (
