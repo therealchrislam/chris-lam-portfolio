@@ -19,14 +19,6 @@ body {
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Custom circular cursor (components/CustomCursor.tsx) replaces the system
-   pointer — the class is only added once JS confirms a fine pointer is
-   actually being tracked, so nothing loses its cursor unexpectedly. */
-.custom-cursor,
-.custom-cursor * {
-  cursor: none;
-}
-
 /* Scroll-reveal: elements start shifted down + transparent; Reveal.tsx adds
    .is-visible when they enter the viewport. Gated behind html.js (set by the
    inline script in layout.tsx) so content stays visible without JavaScript. */
